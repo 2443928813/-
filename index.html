@@ -47,9 +47,130 @@ button:hover {
       transition: background-color 1s ease-in-out;
     }
 
+
+    @keyframes searchSlide {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes searchGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(0, 123, 255, 0.4); }
+      50% { box-shadow: 0 0 15px rgba(0, 123, 255, 1); }
+    }
+
+    #searchInput {
+      animation:
+        searchSlide 1s ease-out,
+        searchGlow 2s infinite;
+      transition: box-shadow 0.3s ease;
+    }
+
+
+    @keyframes notifyGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(30, 136, 229, 0.5); }
+      50% { box-shadow: 0 0 15px rgba(30, 136, 229, 1); }
+    }
+
+    #currentSystem {
+      animation: notifyGlow 2s infinite;
+    }
+
+
+    @keyframes welcomeGlow {
+      0%, 100% { text-shadow: 0 0 5px #42a5f5; }
+      50% { text-shadow: 0 0 15px #82b1ff; }
+    }
+
+
+/* تحسين شكل الجدول */
+#dataTable {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+
+/* ترويسة ثابتة عند التمرير */
+#dataTable thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 2;
+}
+
+/* تناسق حجم الخط والتوسيط */
+#dataTable th, #dataTable td {
+  font-size: 14px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* لون صفوف بالتناوب */
+#dataTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+#highlightLabel {
+  font-weight: bold;
+  font-size: 18px;
+  color: #1565c0;
+  animation: pulseLabel 1.5s infinite;
+}
+
+@keyframes pulseLabel {
+  0%, 100% { text-shadow: 0 0 8px #42a5f5; }
+  50% { text-shadow: 0 0 16px #82b1ff; }
+}
+
+
+
+#animatedWelcome {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #ff4081, #ff9800, #ff4081);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sideGlowMove 3s ease-in-out infinite;
+  margin: 30px 10px;
+}
+
+@keyframes sideGlowMove {
+  0%   { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+  25%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  50%  { transform: translateX(-10px); text-shadow: 0 0 24px #ff4081; }
+  75%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  100% { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+}
+
+  25%  { transform: translateX(5px) scale(1.02); }
+  50%  { transform: translateX(-5px) scale(1); }
+  75%  { transform: translateX(5px) scale(1.02); }
+  100% { transform: translateX(0px) scale(1); }
+}
+
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 2;
+}
+
 </style>
 </head>
 <body>
+
+<h2 id="animatedWelcome">✨ هلا وغلا بالغاليين ✨<br>يسعدنا تقديم نظام شامل لمصنع فال ومصنع سلمى</h2>
+
 
 <div class="login" id="loginBox">
   <h2>🔐 تسجيل الدخول</h2>
@@ -62,17 +183,16 @@ button:hover {
 
 <div class="main hidden" id="mainBox" style="max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 14px; box-shadow: 0 0 10px rgba(0,0,0,0.05); font-family: 'Cairo', sans-serif;">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-    <h2 style="margin: 0 0 10px 0; font-size: 22px;">📋 نظام إدارة البيانات</h2>
+    
     <button style="padding: 8px 16px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer;" onclick="logout()" style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: 0.3s;">
       اتفضل يباشا شرفتنا ❤️
     </button>
   </div>
 
-  <h2>📋 نظام إدارة البيانات</h2>
+  <h2 style="animation: welcomeGlow 2s infinite; color: #1565c0; text-align: center; font-size: 20px;">✨ هلا وغلا بالغاليين ✨<br>يسعدنا تقديم نظام شامل لمصنع فال ومصنع سلمى</h2>
   <p>مرحبًا، <span id="roleLabel"></span></p>
   
-<label for="searchInput">🔍 بحث باسم العامل أو رقم الإقامة</label>
-<input type="text" id="searchInput" oninput="filterTable()" style="width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:10px;">
+
 
 <div class="note" id="userNote">جاري تحميل الملاحظات...</div>
     <div style="margin: 10px 0; padding: 10px; background: #eef; border-radius: 8px;">
@@ -85,7 +205,10 @@ button:hover {
   
 <input type="text" id="searchInput" oninput="filterTable()" placeholder="🔍 بحث باسم العامل أو رقم الإقامة" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:8px;">
 
-<label>اختر النظام:</label>
+
+  <div id="currentSystem" style="margin: 15px 0; padding: 10px; background: #e3f2fd; border-radius: 10px; border: 1px solid #90caf9; font-weight: bold; text-align: center; display: none;"></div>
+
+<label id="highlightLabel">اختر النظام:</label>
 
   <select id="sheetSelector" onchange="loadData()">
     <option value="العمال">نظام العمال</option>
@@ -96,7 +219,14 @@ button:hover {
   </select>
 
   <div id="messageBox" style="color: red; font-weight: bold;"></div>
-  <table id="dataTable"></table>
+  
+<div style="text-align: center; margin: 20px 0;">
+  <button onclick="window.print()" style="padding: 12px 30px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">
+    🖨️ طباعة PDF
+  </button>
+</div>
+
+<div class="table-container"><table id="dataTable"></tbody></table></div>
 </div>
 
 <script>
@@ -166,7 +296,7 @@ function renderTable(data, sheetName) {
   table.innerHTML = "";
 
   if (!data || data.length === 0) {
-    table.innerHTML = "<tr><td>لا توجد بيانات</td></tr>";
+    table.innerHTML = "<thead><tr><th>لا توجد بيانات</td></tr></thead><tbody>";
     return;
   }
 
@@ -357,7 +487,148 @@ window.addEventListener("load", () => {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 });
+
+  const systemLabelMap = {
+    "العمال": "🧑‍🔧 أنت الآن على نظام العمال",
+    "السجلات": "📁 أنت الآن على نظام السجلات",
+    "الأراضي": "🏞️ أنت الآن على نظام إيجار الأراضي",
+    "اليوزر": "🔐 أنت الآن على نظام يوزر المؤسسات",
+    "المركبات": "🚗 أنت الآن على نظام المركبات"
+  };
+
+  function updateCurrentSystemLabel() {
+    const selected = document.getElementById("sheetSelector").value;
+    const box = document.getElementById("currentSystem");
+    box.style.display = "block";
+    box.textContent = systemLabelMap[selected] || "";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("sheetSelector").addEventListener("change", updateCurrentSystemLabel);
+    updateCurrentSystemLabel();
+  });
+
+</script>
+
+
+<script>
+function highlightDateCells() {
+  const today = new Date();
+  document.querySelectorAll("td").forEach(td => {
+    const text = td.textContent.trim();
+    if (/\d{4}-\d{2}-\d{2}/.test(text)) {
+      const date = new Date(text);
+      const diffDays = Math.ceil((date - today) / (1000 * 60 * 60 * 24));
+      if (!isNaN(diffDays)) {
+        td.style.backgroundColor = diffDays < 0 ? '#f8d7da' :
+                                   diffDays <= 60 ? '#fff3cd' :
+                                   '#d4edda';
+      }
+    }
+  });
+}
+window.addEventListener("load", highlightDateCells);
 </script>
 
 </body>
 </html>
+
+<style>
+  #sheetSelector:hover {
+    background-color: #0056b3;
+    color: white;
+    transform: scale(1.05);
+  }
+  #sheetSelector:focus {
+    outline: none;
+  }
+  button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+/* تحسين شكل الجدول */
+#dataTable {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+
+/* ترويسة ثابتة عند التمرير */
+#dataTable thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 2;
+}
+
+/* تناسق حجم الخط والتوسيط */
+#dataTable th, #dataTable td {
+  font-size: 14px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* لون صفوف بالتناوب */
+#dataTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+#highlightLabel {
+  font-weight: bold;
+  font-size: 18px;
+  color: #1565c0;
+  animation: pulseLabel 1.5s infinite;
+}
+
+@keyframes pulseLabel {
+  0%, 100% { text-shadow: 0 0 8px #42a5f5; }
+  50% { text-shadow: 0 0 16px #82b1ff; }
+}
+
+
+
+#animatedWelcome {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #ff4081, #ff9800, #ff4081);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sideGlowMove 3s ease-in-out infinite;
+  margin: 30px 10px;
+}
+
+@keyframes sideGlowMove {
+  0%   { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+  25%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  50%  { transform: translateX(-10px); text-shadow: 0 0 24px #ff4081; }
+  75%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  100% { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+}
+
+  25%  { transform: translateX(5px) scale(1.02); }
+  50%  { transform: translateX(-5px) scale(1); }
+  75%  { transform: translateX(5px) scale(1.02); }
+  100% { transform: translateX(0px) scale(1); }
+}
+
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 2;
+}
+
+</style>
