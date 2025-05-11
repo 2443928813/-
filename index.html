@@ -1,56 +1,635 @@
-
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
-  <meta charset="UTF-8">
-  <title>تسجيل الدخول - فال</title>
+<!-- saved from url=(0051)file:///C:/Users/Tohiba/Downloads/index%20(12).html -->
+<html dir="rtl" lang="ar"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>نظام إدارة البيانات - مع ملاحظات</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f1f1f1;
-      font-family: Tahoma, sans-serif;
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; }
+    .login, .main { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; }
+    input, select, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background-color: #f5f5f5; }
+    .expired { background-color: #f8d7da; }
+    .warning { background-color: #fff3cd; }
+    .safe { background-color: #d4edda; }
+    .hidden { display: none; }
+    .note { background-color: #fff9c4; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; }
+  
+button:hover {
+  opacity: 0.9;
+}
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
-    .login-box {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      width: 300px;
-      margin: 100px auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      text-align: center;
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 5px 2px rgba(255, 213, 0, 0.5); }
+      50% { box-shadow: 0 0 15px 6px rgba(255, 213, 0, 1); }
     }
-    .login-box img {
-      width: 120px;
-      margin-bottom: 20px;
+
+    @keyframes colorShift {
+      0% { background-color: #fff9c4; }
+      33% { background-color: #ffe082; }
+      66% { background-color: #fff59d; }
+      100% { background-color: #fff9c4; }
     }
-    input {
-      display: block;
-      margin: 15px auto;
-      padding: 10px;
-      width: 90%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+
+    #userNote {
+      animation:
+        slideIn 1s ease-out,
+        pulse 2s infinite,
+        colorShift 6s infinite;
+      transition: background-color 1s ease-in-out;
     }
-    button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+
+
+    @keyframes searchSlide {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
-  </style>
+
+    @keyframes searchGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(0, 123, 255, 0.4); }
+      50% { box-shadow: 0 0 15px rgba(0, 123, 255, 1); }
+    }
+
+    #searchInput {
+      animation:
+        searchSlide 1s ease-out,
+        searchGlow 2s infinite;
+      transition: box-shadow 0.3s ease;
+    }
+
+
+    @keyframes notifyGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(30, 136, 229, 0.5); }
+      50% { box-shadow: 0 0 15px rgba(30, 136, 229, 1); }
+    }
+
+    #currentSystem {
+      animation: notifyGlow 2s infinite;
+    }
+
+
+    @keyframes welcomeGlow {
+      0%, 100% { text-shadow: 0 0 5px #42a5f5; }
+      50% { text-shadow: 0 0 15px #82b1ff; }
+    }
+
+
+/* تحسين شكل الجدول */
+#dataTable {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+
+/* ترويسة ثابتة عند التمرير */
+#dataTable thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 2;
+}
+
+/* تناسق حجم الخط والتوسيط */
+#dataTable th, #dataTable td {
+  font-size: 14px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* لون صفوف بالتناوب */
+#dataTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+#highlightLabel {
+  font-weight: bold;
+  font-size: 18px;
+  color: #1565c0;
+  animation: pulseLabel 1.5s infinite;
+}
+
+@keyframes pulseLabel {
+  0%, 100% { text-shadow: 0 0 8px #42a5f5; }
+  50% { text-shadow: 0 0 16px #82b1ff; }
+}
+
+
+
+#animatedWelcome {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #ff4081, #ff9800, #ff4081);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sideGlowMove 3s ease-in-out infinite;
+  margin: 30px 10px;
+}
+
+@keyframes sideGlowMove {
+  0%   { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+  25%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  50%  { transform: translateX(-10px); text-shadow: 0 0 24px #ff4081; }
+  75%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  100% { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+}
+
+  25%  { transform: translateX(5px) scale(1.02); }
+  50%  { transform: translateX(-5px) scale(1); }
+  75%  { transform: translateX(5px) scale(1.02); }
+  100% { transform: translateX(0px) scale(1); }
+}
+
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 2;
+}
+
+</style>
 </head>
 <body>
 
-<div class="login-box">
-  <img src="4471fb20-e3fd-4d68-b97b-61dd40338546.webp" alt="FAAL Logo">
-  <h2>🔒 تسجيل الدخول</h2>
-  <input type="text" placeholder="اسم المستخدم">
-  <input type="password" placeholder="كلمة المرور">
-  <button>دخول</button>
+<h2 id="animatedWelcome">✨ هلا وغلا بالغاليين ✨<br>يسعدنا تقديم نظام شامل لمصنع فال ومصنع سلمى</h2>
+
+
+<div class="login" id="loginBox">
+  <h2>🔐 تسجيل الدخول</h2>
+  <input type="text" id="username" placeholder="اسم المستخدم">
+  <input type="password" id="password" placeholder="كلمة المرور">
+  <button style="padding: 8px 16px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer;" onclick="login()">دخول</button>
+  <p id="loginError" style="color: red;"></p>
 </div>
 
-</body>
-</html>
+
+<div class="main hidden" id="mainBox" style="max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 14px; box-shadow: 0 0 10px rgba(0,0,0,0.05); font-family: &#39;Cairo&#39;, sans-serif;">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    
+    <button style="padding: 8px 16px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer;" onclick="logout()">
+      اتفضل يباشا شرفتنا ❤️
+    </button>
+  </div>
+
+  <h2 style="animation: welcomeGlow 2s infinite; color: #1565c0; text-align: center; font-size: 20px;">✨ هلا وغلا بالغاليين ✨<br>يسعدنا تقديم نظام شامل لمصنع فال ومصنع سلمى</h2>
+  <p>مرحبًا، <span id="roleLabel"></span></p>
+  
+
+
+<div class="note" id="userNote">جاري تحميل الملاحظات...</div>
+    <div style="margin: 10px 0; padding: 10px; background: #eef; border-radius: 8px;">
+      <strong>شرح الألوان:</strong><br>
+      🔴 <span style="background:#f8d7da;padding:3px 8px;border-radius:5px;">أحمر</span> = أقل من 30 يوم<br>
+      🟡 <span style="background:#fff3cd;padding:3px 8px;border-radius:5px;">أصفر</span> = من 31 إلى 60 يوم<br>
+      🟢 <span style="background:#d4edda;padding:3px 8px;border-radius:5px;">أخضر</span> = أكثر من 60 يوم
+    </div>
+
+  
+<input type="text" id="searchInput" oninput="filterTable()" placeholder="🔍 بحث باسم العامل أو رقم الإقامة" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:8px;">
+
+
+  <div id="currentSystem" style="margin: 15px 0px; padding: 10px; background: rgb(227, 242, 253); border-radius: 10px; border: 1px solid rgb(144, 202, 249); font-weight: bold; text-align: center; display: block;">🧑‍🔧 أنت الآن على نظام العمال</div>
+
+<label id="highlightLabel">اختر النظام:</label>
+
+  <select id="sheetSelector" onchange="loadData()">
+    <option value="العمال">نظام العمال</option>
+    <option value="السجلات">نظام السجلات</option>
+    <option value="الأراضي">نظام إيجار الأراضي</option>
+    <option value="اليوزر">نظام يوزر المؤسسات</option>
+    <option value="المركبات">نظام المركبات</option>
+  </select>
+
+  <div id="messageBox" style="color: red; font-weight: bold;"></div>
+  
+<div style="text-align: center; margin: 20px 0;">
+  <button onclick="window.print()" style="padding: 12px 30px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">
+    🖨️ طباعة PDF
+  </button>
+</div>
+
+<div class="table-container"><table id="dataTable"></table></div>
+</div>
+
+<script>
+const webAppURL = "https://script.google.com/macros/s/AKfycbzd1jmbC4fAreMId0U9n01z5_OLkJQW3DRzh1D273D8hPkl93Dp7Rw6b4WQTyWQgtt9uQ/exec";
+let currentRole = "";
+let currentUser = "";
+
+function login() {
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
+  const errorBox = document.getElementById("loginError");
+
+  if (u === "admin" && p === "2311211") {
+    currentRole = "admin";
+  } else if (u === "faal" && p === "123") {
+    currentRole = "viewer";
+  } else {
+    errorBox.textContent = "بيانات الدخول غير صحيحة";
+    return;
+  }
+
+  currentUser = u;
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("mainBox").classList.remove("hidden");
+  document.getElementById("roleLabel").textContent = currentRole === "admin" ? "أدمن (صلاحية كاملة)" : "مراجع (عرض فقط)";
+  loadUserNote();
+  loadData();
+}
+
+function loadUserNote() {
+  fetch(`${webAppURL}?sheet=الملاحظات`)
+    .then(res => res.json())
+    .then(data => {
+      let note = "لا توجد ملاحظات حالياً.";
+      for (let i = 1; i < data.length; i++) {
+        if (data[i][0] === currentUser) {
+          note = data[i][1];
+          break;
+        }
+      }
+      document.getElementById("userNote").textContent = note;
+    })
+    .catch(() => {
+      document.getElementById("userNote").textContent = "تعذر تحميل الملاحظات.";
+    });
+}
+
+function loadData() {
+  const sheet = document.getElementById("sheetSelector").value;
+  const table = document.getElementById("dataTable");
+  const messageBox = document.getElementById("messageBox");
+  messageBox.textContent = "";
+  table.innerHTML = "";
+
+  if (currentRole === "viewer" && sheet === "اليوزر") {
+    messageBox.textContent = "عفوا، هذا النظام مخصص للإدارة فقط";
+    return;
+  }
+
+  fetch(`${webAppURL}?sheet=${sheet}`)
+    .then(res => res.json())
+    .then(data => renderTable(data, sheet));
+}
+
+function renderTable(data, sheetName) {
+  const table = document.getElementById("dataTable");
+  table.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    table.innerHTML = "<thead><tr><th>لا توجد بيانات</td></tr></thead><tbody>";
+    return;
+  }
+
+  let header = "<tr>";
+  data[0].forEach(h => header += `<th>${h}</th>`);
+  if (currentRole === "admin") header += "<th>حذف</th>";
+  header += "</tr>";
+  table.innerHTML += header;
+
+  const now = new Date();
+  for (let i = 1; i < data.length; i++) {
+    let row = "<tr>";
+    data[i].forEach((cell, j) => {
+      let cellClass = "";
+      if (typeof cell === "string") {
+        if (cell.trim() === "داخل المملكة") cellClass = "safe";
+        if (cell.trim() === "خارج المملكة") cellClass = "expired";
+      }
+      if (sheetName === "العمال" || sheetName === "المركبات" || sheetName === "السجلات") {
+        if (j > 2 && isDate(cell)) {
+          const days = dateDiffInDays(now, new Date(cell));
+          if (days <= 30) cellClass = "expired";
+          else if (days <= 60) cellClass = "warning";
+          else cellClass = "safe";
+        }
+      }
+      row += `<td class="${cellClass}">${cell}</td>`;
+    });
+    if (currentRole === "admin") {
+      row += `<td><button style="padding: 8px 16px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer;" onclick="deleteRow(${i + 1})">🗑️</button></td>`;
+    }
+    row += "</tr>";
+    table.innerHTML += row;
+  }
+}
+
+function deleteRow(rowIndex) {
+  const sheet = document.getElementById("sheetSelector").value;
+  fetch(webAppURL + "?sheet=" + sheet + "&delete=" + rowIndex)
+    .then(() => {
+      alert("✅ تم حذف الصف بنجاح");
+      loadData();
+    });
+}
+
+function isDate(val) {
+  return !isNaN(Date.parse(val));
+}
+
+function dateDiffInDays(a, b) {
+  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+}
+
+function logout() {
+  currentRole = "";
+  currentUser = "";
+  document.getElementById("mainBox").classList.add("hidden");
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("loginError").textContent = "";
+}
+
+function filterTable() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const rows = document.querySelectorAll("#dataTable tr");
+  let visible = 0;
+
+  rows.forEach((row, index) => {
+    if (index === 0) return;
+    const cells = row.querySelectorAll("td");
+    const text = Array.from(cells).map(td => td.textContent.toLowerCase()).join(" ");
+    const show = input === "" || text.includes(input);
+    row.style.display = show ? "" : "none";
+    if (show) visible++;
+  });
+}
+
+function calculateRemainingDays(dateStr) {
+  const now = new Date();
+  
+  const cleanDateStr = dateStr.split("T")[0]; // extract "2028-05-24" from full ISO
+  const target = new Date(cleanDateStr);
+
+  const diffTime = target - now;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  if (isNaN(diffDays)) return "";
+  return diffDays >= 0 ? `باقي ${diffDays} يوم` : `منتهي منذ ${Math.abs(diffDays)} يوم`;
+}
+
+function addRemainingDaysColumns() {
+  const headers = document.querySelectorAll("#dataTable thead tr th");
+  const rows = document.querySelectorAll("#dataTable tbody tr");
+
+  const dateCols = ["تاريخ انتهاء الإقامة", "تاريخ انتهاء العقد", "تاريخ الانتهاء", "تاريخ انتهاء الاستمارة", "تاريخ انتهاء التأمين"];
+  const headerMap = Array.from(headers).map(h => h.textContent.trim());
+
+  dateCols.forEach(label => {
+    const index = headerMap.indexOf(label);
+    if (index >= 0) {
+      const newHeader = document.createElement("th");
+      newHeader.textContent = `الأيام المتبقية لـ ${label}`;
+      headers[0].parentNode.appendChild(newHeader);
+
+      rows.forEach(row => {
+        const cell = row.children[index];
+        const newCell = document.createElement("td");
+        
+      const cleanDate = cell.textContent.trim().split("T")[0]; // simplify the date shown
+      cell.textContent = cleanDate;
+      newCell.textContent = calculateRemainingDays(cleanDate);
+
+        row.appendChild(newCell);
+      });
+    }
+  });
+}
+
+window.addEventListener("load", () => {
+  setTimeout(addRemainingDaysColumns, 300);
+});
+
+function simplifyDate(iso) {
+  return iso.includes("T") ? iso.split("T")[0] : iso;
+}
+
+function daysLeftText(dateStr) {
+  const today = new Date();
+  const target = new Date(dateStr);
+  const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+  if (isNaN(diff)) return "";
+  return diff >= 0 ? `باقي ${diff} يوم` : `منتهي منذ ${Math.abs(diff)} يوم`;
+}
+
+function insertRemainingDays() {
+  const table = document.getElementById("dataTable");
+  if (!table) return;
+
+  const headerRow = table.rows[0];
+  const labelMap = {
+    "تاريخ انتهاء الإقامة": "الأيام المتبقية للإقامة",
+    "تاريخ انتهاء العقد": "الأيام المتبقية للعقد",
+    "تاريخ الانتهاء": "الأيام المتبقية",
+    "تاريخ انتهاء الاستمارة": "الأيام المتبقية للاستمارة",
+    "تاريخ انتهاء التأمين": "الأيام المتبقية للتأمين"
+  };
+
+  const dateIndexes = {};
+
+  for (let i = 0; i < headerRow.cells.length; i++) {
+    const label = headerRow.cells[i].textContent.trim();
+    if (labelMap[label]) {
+      dateIndexes[i] = labelMap[label];
+    }
+  }
+
+  // أضف الأعمدة الجديدة للعناوين
+  Object.values(dateIndexes).forEach(label => {
+    const th = document.createElement("th");
+    th.textContent = label;
+    headerRow.appendChild(th);
+  });
+
+  for (let i = 1; i < table.rows.length; i++) {
+    const row = table.rows[i];
+    Object.keys(dateIndexes).forEach(index => {
+      const cell = row.cells[index];
+      const raw = cell.textContent.trim();
+      const simple = simplifyDate(raw);
+      cell.textContent = simple;
+      const td = document.createElement("td");
+      td.textContent = daysLeftText(simple);
+      row.appendChild(td);
+    });
+  }
+}
+
+window.addEventListener("load", () => {
+  const observer = new MutationObserver(() => {
+    const table = document.getElementById("dataTable");
+    if (table && table.rows.length > 1) {
+      observer.disconnect();
+      insertRemainingDays();
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+});
+
+  const systemLabelMap = {
+    "العمال": "🧑‍🔧 أنت الآن على نظام العمال",
+    "السجلات": "📁 أنت الآن على نظام السجلات",
+    "الأراضي": "🏞️ أنت الآن على نظام إيجار الأراضي",
+    "اليوزر": "🔐 أنت الآن على نظام يوزر المؤسسات",
+    "المركبات": "🚗 أنت الآن على نظام المركبات"
+  };
+
+  function updateCurrentSystemLabel() {
+    const selected = document.getElementById("sheetSelector").value;
+    const box = document.getElementById("currentSystem");
+    box.style.display = "block";
+    box.textContent = systemLabelMap[selected] || "";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("sheetSelector").addEventListener("change", updateCurrentSystemLabel);
+    updateCurrentSystemLabel();
+  });
+
+</script>
+
+
+<script>
+function highlightDateCells() {
+  const today = new Date();
+  document.querySelectorAll("td").forEach(td => {
+    const text = td.textContent.trim();
+    if (/\d{4}-\d{2}-\d{2}/.test(text)) {
+      const date = new Date(text);
+      const diffDays = Math.ceil((date - today) / (1000 * 60 * 60 * 24));
+      if (!isNaN(diffDays)) {
+        td.style.backgroundColor = diffDays < 0 ? '#f8d7da' :
+                                   diffDays <= 60 ? '#fff3cd' :
+                                   '#d4edda';
+      }
+    }
+  });
+}
+window.addEventListener("load", highlightDateCells);
+</script>
+
+
+
+
+<style>
+  #sheetSelector:hover {
+    background-color: #0056b3;
+    color: white;
+    transform: scale(1.05);
+  }
+  #sheetSelector:focus {
+    outline: none;
+  }
+  button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+/* تحسين شكل الجدول */
+#dataTable {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+
+/* ترويسة ثابتة عند التمرير */
+#dataTable thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 2;
+}
+
+/* تناسق حجم الخط والتوسيط */
+#dataTable th, #dataTable td {
+  font-size: 14px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* لون صفوف بالتناوب */
+#dataTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+#highlightLabel {
+  font-weight: bold;
+  font-size: 18px;
+  color: #1565c0;
+  animation: pulseLabel 1.5s infinite;
+}
+
+@keyframes pulseLabel {
+  0%, 100% { text-shadow: 0 0 8px #42a5f5; }
+  50% { text-shadow: 0 0 16px #82b1ff; }
+}
+
+
+
+#animatedWelcome {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #ff4081, #ff9800, #ff4081);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sideGlowMove 3s ease-in-out infinite;
+  margin: 30px 10px;
+}
+
+@keyframes sideGlowMove {
+  0%   { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+  25%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  50%  { transform: translateX(-10px); text-shadow: 0 0 24px #ff4081; }
+  75%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  100% { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+}
+
+  25%  { transform: translateX(5px) scale(1.02); }
+  50%  { transform: translateX(-5px) scale(1); }
+  75%  { transform: translateX(5px) scale(1.02); }
+  100% { transform: translateX(0px) scale(1); }
+}
+
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 2;
+}
+
+</style>
+
+</body></html>
