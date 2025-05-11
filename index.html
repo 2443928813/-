@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
-  <meta charset="UTF-8">
+<!-- saved from url=(0042)https://famous-dolphin-2cb117.netlify.app/ -->
+<html dir="rtl" lang="ar"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
   <title>نظام إدارة البيانات - مع ملاحظات</title>
   <style>
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; }
@@ -81,12 +80,95 @@ button:hover {
       50% { text-shadow: 0 0 15px #82b1ff; }
     }
 
+
+/* تحسين شكل الجدول */
+#dataTable {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+
+/* ترويسة ثابتة عند التمرير */
+#dataTable thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 2;
+}
+
+/* تناسق حجم الخط والتوسيط */
+#dataTable th, #dataTable td {
+  font-size: 14px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* لون صفوف بالتناوب */
+#dataTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+#highlightLabel {
+  font-weight: bold;
+  font-size: 18px;
+  color: #1565c0;
+  animation: pulseLabel 1.5s infinite;
+}
+
+@keyframes pulseLabel {
+  0%, 100% { text-shadow: 0 0 8px #42a5f5; }
+  50% { text-shadow: 0 0 16px #82b1ff; }
+}
+
+
+
+#animatedWelcome {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #ff4081, #ff9800, #ff4081);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sideGlowMove 3s ease-in-out infinite;
+  margin: 30px 10px;
+}
+
+@keyframes sideGlowMove {
+  0%   { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+  25%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  50%  { transform: translateX(-10px); text-shadow: 0 0 24px #ff4081; }
+  75%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  100% { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+}
+
+  25%  { transform: translateX(5px) scale(1.02); }
+  50%  { transform: translateX(-5px) scale(1); }
+  75%  { transform: translateX(5px) scale(1.02); }
+  100% { transform: translateX(0px) scale(1); }
+}
+
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 2;
+}
+
 </style>
 </head>
 <body>
-<button onclick="window.print()" style="margin: 10px; padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 6px; float: left;">
-🖨️ طباعة PDF
-</button>
+
+<h2 id="animatedWelcome">✨ هلا وغلا بالغاليين ✨<br>يسعدنا تقديم نظام شامل لمصنع فال ومصنع سلمى</h2>
 
 
 <div class="login" id="loginBox">
@@ -98,10 +180,10 @@ button:hover {
 </div>
 
 
-<div class="main hidden" id="mainBox" style="max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 14px; box-shadow: 0 0 10px rgba(0,0,0,0.05); font-family: 'Cairo', sans-serif;">
+<div class="main hidden" id="mainBox" style="max-width: 1100px; margin: 30px auto; background: white; padding: 25px; border-radius: 14px; box-shadow: 0 0 10px rgba(0,0,0,0.05); font-family: &#39;Cairo&#39;, sans-serif;">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
     
-    <button style="padding: 8px 16px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer;" onclick="logout()" style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: 0.3s;">
+    <button style="padding: 8px 16px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer;" onclick="logout()">
       اتفضل يباشا شرفتنا ❤️
     </button>
   </div>
@@ -123,9 +205,9 @@ button:hover {
 <input type="text" id="searchInput" oninput="filterTable()" placeholder="🔍 بحث باسم العامل أو رقم الإقامة" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:8px;">
 
 
-  <div id="currentSystem" style="margin: 15px 0; padding: 10px; background: #e3f2fd; border-radius: 10px; border: 1px solid #90caf9; font-weight: bold; text-align: center; display: none;"></div>
+  <div id="currentSystem" style="margin: 15px 0px; padding: 10px; background: rgb(227, 242, 253); border-radius: 10px; border: 1px solid rgb(144, 202, 249); font-weight: bold; text-align: center; display: block;">🧑‍🔧 أنت الآن على نظام العمال</div>
 
-<label>اختر النظام:</label>
+<label id="highlightLabel">اختر النظام:</label>
 
   <select id="sheetSelector" onchange="loadData()">
     <option value="العمال">نظام العمال</option>
@@ -136,7 +218,14 @@ button:hover {
   </select>
 
   <div id="messageBox" style="color: red; font-weight: bold;"></div>
-  <table id="dataTable"></table>
+  
+<div style="text-align: center; margin: 20px 0;">
+  <button onclick="window.print()" style="padding: 12px 30px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">
+    🖨️ طباعة PDF
+  </button>
+</div>
+
+<div class="table-container"><table id="dataTable"></table></div>
 </div>
 
 <script>
@@ -206,7 +295,7 @@ function renderTable(data, sheetName) {
   table.innerHTML = "";
 
   if (!data || data.length === 0) {
-    table.innerHTML = "<tr><td>لا توجد بيانات</td></tr>";
+    table.innerHTML = "<thead><tr><th>لا توجد بيانات</td></tr></thead><tbody>";
     return;
   }
 
@@ -440,5 +529,106 @@ function highlightDateCells() {
 window.addEventListener("load", highlightDateCells);
 </script>
 
-</body>
-</html>
+
+
+
+<style>
+  #sheetSelector:hover {
+    background-color: #0056b3;
+    color: white;
+    transform: scale(1.05);
+  }
+  #sheetSelector:focus {
+    outline: none;
+  }
+  button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+/* تحسين شكل الجدول */
+#dataTable {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+
+/* ترويسة ثابتة عند التمرير */
+#dataTable thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 2;
+}
+
+/* تناسق حجم الخط والتوسيط */
+#dataTable th, #dataTable td {
+  font-size: 14px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* لون صفوف بالتناوب */
+#dataTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+#highlightLabel {
+  font-weight: bold;
+  font-size: 18px;
+  color: #1565c0;
+  animation: pulseLabel 1.5s infinite;
+}
+
+@keyframes pulseLabel {
+  0%, 100% { text-shadow: 0 0 8px #42a5f5; }
+  50% { text-shadow: 0 0 16px #82b1ff; }
+}
+
+
+
+#animatedWelcome {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #ff4081, #ff9800, #ff4081);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sideGlowMove 3s ease-in-out infinite;
+  margin: 30px 10px;
+}
+
+@keyframes sideGlowMove {
+  0%   { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+  25%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  50%  { transform: translateX(-10px); text-shadow: 0 0 24px #ff4081; }
+  75%  { transform: translateX(10px); text-shadow: 0 0 16px #ff9800; }
+  100% { transform: translateX(0); text-shadow: 0 0 8px #ff4081; }
+}
+
+  25%  { transform: translateX(5px) scale(1.02); }
+  50%  { transform: translateX(-5px) scale(1); }
+  75%  { transform: translateX(5px) scale(1.02); }
+  100% { transform: translateX(0px) scale(1); }
+}
+
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 2;
+}
+
+</style>
+</body></html>
